@@ -1,0 +1,27 @@
+# Build output
+target/
+build/
+*.jar
+*.war
+*.class
+ 
+# IDE
+.idea/
+.vscode/
+*.iml
+.settings/
+.classpath
+.project
+ 
+# Editor and OS temporary files
+*.swp
+*.swo
+*~
+.DS_Store
+ 
+# Secrets - never commit these
+.env.git  .gitignore  README.md  src
+user@user-OptiPlex-390:~/devops-lab/1M
+*.pem
+*.key
+credentials*
