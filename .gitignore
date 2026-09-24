@@ -25,3 +25,4 @@ user@user-OptiPlex-390:~/devops-lab/1M
 *.pem
 *.key
 credentials*
+.gradle/
