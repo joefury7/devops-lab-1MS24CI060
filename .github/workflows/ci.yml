@@ -1,0 +1,42 @@
+name: EcoPulse AIOps CI
+
+on:
+  push:
+    branches: [ main, ecopulse ]
+  pull_request:
+    branches: [ main, ecopulse ]
+
+jobs:
+  build-and-test:
+    name: Build & Verify (USN 1MS24CI060)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 (Eclipse Temurin)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Compile and Test with Maven
+        run: mvn clean test
+
+      - name: Package Microservice JAR
+        run: mvn package -DskipTests
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: surefire-test-reports
+          path: '**/target/surefire-reports/*.xml'
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecopulse-aiops-jar
+          path: '**/target/*.jar'

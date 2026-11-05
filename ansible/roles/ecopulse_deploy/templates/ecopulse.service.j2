@@ -1,0 +1,18 @@
+[Unit]
+Description=EcoPulse AIOps Telemetry Service (USN: {{ student_usn }})
+After=network.target
+
+[Service]
+Type=simple
+User=ecopulse
+Group=ecopulse
+WorkingDirectory={{ deploy_dir }}
+ExecStart=/usr/bin/java -Xms128m -Xmx512m -jar {{ deploy_dir }}/ecopulse-aiops.jar --server.port={{ app_port }} --ecopulse.default.region={{ default_grid_region }}
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ecopulse-aiops
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+---
+# ==============================================================================
+# Handlers for EcoPulse Deployment Role (USN: 1MS24CI060)
+# ==============================================================================
+- name: restart ecopulse
+  systemd:
+    name: "{{ app_name }}"
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

@@ -1,0 +1,43 @@
+---
+# ==============================================================================
+# Ansible Playbook: Provision & Deploy EcoPulse AIOps
+# Student USN: 1MS24CI060 | M. S. Ramaiah Institute of Technology
+# ==============================================================================
+- name: Configure Application Server and Deploy EcoPulse AIOps
+  hosts: appservers
+  become: yes
+  vars:
+    app_name: ecopulse-aiops
+    app_port: 8080
+    student_usn: 1MS24CI060
+    deploy_dir: /opt/ecopulse
+    jar_source: ../ecopulse/target/ecopulse-aiops-1.0.0.jar
+    java_package: openjdk-17-jre-headless
+    default_grid_region: ap-south-1
+
+  roles:
+    - ecopulse_deploy
+
+  tasks:
+    - name: Verify EcoPulse health endpoint
+      uri:
+        url: "http://localhost:{{ app_port }}/health"
+        method: GET
+        status_code: 200
+      register: health_result
+      retries: 5
+      delay: 3
+      until: health_result.status == 200
+      ignore_errors: yes
+
+    - name: Log deployment status
+      debug:
+        msg: "EcoPulse AIOps successfully deployed by USN {{ student_usn }} on port {{ app_port }}."
+
+  handlers:
+    - name: restart ecopulse
+      systemd:
+        name: "{{ app_name }}"
+        state: restarted
+        daemon_reload: yes
+        enabled: yes

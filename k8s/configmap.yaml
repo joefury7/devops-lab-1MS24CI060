@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecopulse-config
+  labels:
+    app: ecopulse-aiops
+    student: "1MS24CI060"
+data:
+  APP_ENV: "production"
+  SERVER_PORT: "8080"
+  ECOPULSE_DEFAULT_REGION: "ap-south-1"
+  STUDENT_USN: "1MS24CI060"
+  LOG_LEVEL: "INFO"

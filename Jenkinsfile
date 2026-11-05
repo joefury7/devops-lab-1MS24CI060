@@ -2,46 +2,73 @@ pipeline {
     agent any
 
     options {
-        buildDiscarder(logRotator(numToKeepStr: '5'))
+        buildDiscarder(logRotator(numToKeepStr: '10'))
         disableConcurrentBuilds()
         timeout(time: 15, unit: 'MINUTES')
     }
 
+    triggers {
+        // SCM polling every 5 minutes as required by Component 1 rubric
+        pollSCM('H/5 * * * *')
+    }
+
+    environment {
+        APP_NAME = 'ecopulse-aiops'
+        STUDENT_USN = '1MS24CI060'
+        COURSE_CODE = '25CIAEC59'
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Checkout SCM') {
             steps {
-                echo 'Checking out source repository...'
+                echo "=============================================================="
+                echo "  Checking out EcoPulse AIOps Repository (USN: ${STUDENT_USN}) "
+                echo "=============================================================="
                 checkout scm
             }
         }
 
         stage('Compile') {
             steps {
-                echo 'Compiling Quote API...'
-                sh './gradlew compileJava || mvn clean compile'
+                echo "Compiling Java sources with Apache Maven..."
+                sh 'mvn clean compile'
             }
         }
 
-        stage('Test') {
+        stage('Unit Tests') {
             steps {
-                echo 'Running unit tests...'
-                sh './gradlew test || mvn test'
+                echo "Running JUnit 5 Test Suite (AIOps, Carbon & Health tests)..."
+                sh 'mvn test'
             }
             post {
                 always {
-                    junit allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml,**/target/surefire-reports/*.xml'
+                    // CI Enhancement: Automated JUnit XML report parsing and publishing
+                    junit allowEmptyResults: false, testResults: '**/target/surefire-reports/*.xml'
                 }
             }
         }
 
-        stage('Package') {
+        stage('Package Artifact') {
             steps {
-                echo 'Packaging application artifact...'
-                sh './gradlew bootJar || mvn package -DskipTests'
+                echo "Packaging production JAR artifact..."
+                sh 'mvn package -DskipTests'
             }
             post {
                 success {
-                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/build/libs/*.jar,**/target/*.jar'
+                    // Post-build action: Fingerprinted artifact archiving
+                    archiveArtifacts allowEmptyArchive: false, artifacts: '**/target/*.jar', fingerprint: true
+                }
+            }
+        }
+
+        stage('Build Versioning') {
+            steps {
+                script {
+                    def commitSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+                    echo "=============================================================="
+                    echo "  ECOPULSE ARTIFACT VERSIONED: ${APP_NAME}-${commitSha}       "
+                    echo "  STUDENT USN: ${STUDENT_USN} | STATUS: PASSED                "
+                    echo "=============================================================="
                 }
             }
         }
@@ -49,14 +76,10 @@ pipeline {
 
     post {
         success {
-            echo '======================================'
-            echo '  BUILD AND TEST SUCCESSFUL!         '
-            echo '======================================'
+            echo "SUCCESS: EcoPulse AIOps CI pipeline completed cleanly!"
         }
         failure {
-            echo '======================================'
-            echo '  BUILD FAILED!                      '
-            echo '======================================'
+            echo "FAILURE: Build or test step failed. Review console log."
         }
     }
 }

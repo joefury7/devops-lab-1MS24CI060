@@ -1,0 +1,10 @@
+---
+# ==============================================================================
+# Variables for EcoPulse Deployment Role (USN: 1MS24CI060)
+# ==============================================================================
+app_name: ecopulse-aiops
+app_port: 8080
+deploy_dir: /opt/ecopulse
+student_usn: 1MS24CI060
+default_grid_region: ap-south-1
+jar_source: ../ecopulse/target/ecopulse-aiops-1.0.0.jar

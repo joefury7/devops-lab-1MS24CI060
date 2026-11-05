@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecopulse-aiops
+  labels:
+    app: ecopulse-aiops
+    tier: backend
+    student: "1MS24CI060"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecopulse-aiops
+  template:
+    metadata:
+      labels:
+        app: ecopulse-aiops
+        tier: backend
+        student: "1MS24CI060"
+    spec:
+      containers:
+        - name: ecopulse-aiops
+          image: ecopulse-aiops:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: ecopulse-config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          # Component 2 Enhancement: Liveness & Readiness Probes
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
