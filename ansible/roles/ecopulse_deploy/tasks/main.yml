@@ -1,0 +1,54 @@
+---
+# ==============================================================================
+# Tasks for EcoPulse Deployment Role (USN: 1MS24CI060)
+# ==============================================================================
+- name: Ensure Java JRE runtime package is installed
+  apt:
+    name: "{{ java_package | default('openjdk-17-jre-headless') }}"
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Create service group
+  group:
+    name: ecopulse
+    state: present
+
+- name: Create dedicated unprivileged service user
+  user:
+    name: ecopulse
+    group: ecopulse
+    system: yes
+    create_home: no
+
+- name: Create application deployment directory
+  file:
+    path: "{{ deploy_dir }}"
+    state: directory
+    owner: ecopulse
+    group: ecopulse
+    mode: '0755'
+
+- name: Copy EcoPulse AIOps JAR artifact
+  copy:
+    src: "{{ jar_source }}"
+    dest: "{{ deploy_dir }}/ecopulse-aiops.jar"
+    owner: ecopulse
+    group: ecopulse
+    mode: '0750'
+  notify: restart ecopulse
+
+- name: Configure systemd unit file from template
+  template:
+    src: ecopulse.service.j2
+    dest: "/etc/systemd/system/{{ app_name }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart ecopulse
+
+- name: Enable and ensure EcoPulse service is running
+  systemd:
+    name: "{{ app_name }}"
+    state: started
+    enabled: yes
