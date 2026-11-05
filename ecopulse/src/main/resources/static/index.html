@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoPulse AIOps — Green Kubernetes Telemetry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #10b981;
+      --primary-glow: rgba(16, 185, 129, 0.25);
+      --accent: #3b82f6;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --font: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.5;
+      padding: 24px;
+      background-image: radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 85% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+      min-height: 100vh;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo-badge {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .brand h1 { font-size: 22px; font-weight: 700; }
+    .brand p { font-size: 13px; color: var(--text-muted); }
+
+    .student-badge {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-align: right;
+    }
+    .student-badge .usn { font-family: var(--font-mono); font-weight: 600; color: var(--primary); }
+    .student-badge .meta { font-size: 12px; color: var(--text-muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 22px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h2 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; }
+    .stat-label { color: var(--text-muted); }
+    .stat-val { font-family: var(--font-mono); font-weight: 600; }
+
+    .badge-up {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .badge-alert {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-block;
+    }
+    .badge-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .badge-warning { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-success { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+
+    .form-group { margin-bottom: 14px; }
+    label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+    input, select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-family: var(--font);
+      font-size: 13px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--primary); }
+
+    button {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    button:hover { opacity: 0.92; }
+    button:active { transform: scale(0.99); }
+
+    .result-box {
+      margin-top: 16px;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      font-size: 13px;
+      display: none;
+    }
+
+    pre {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      overflow-x: auto;
+      color: #34d399;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo-badge">⚡ EcoPulse</div>
+        <div>
+          <h1>EcoPulse AIOps</h1>
+          <p>Green Kubernetes Telemetry & Predictive Incident Mitigation Engine</p>
+        </div>
+      </div>
+      <div class="student-badge">
+        <div class="usn">USN: 1MS24CI060</div>
+        <div class="meta">Dept of CSE (AI &amp; ML) | RIT Bangalore</div>
+        <div class="meta">Guide: Mr. Prashanth Reddy C | Course: 25CIAEC59</div>
+      </div>
+    </header>
+
+    <!-- Cluster Telemetry Banner -->
+    <div class="card" style="margin-bottom: 24px;">
+      <h2>🟢 Live Cluster Node &amp; Health Telemetry (GET /health)</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+        <div>
+          <div class="stat-label">Service Status</div>
+          <div style="margin-top: 4px;"><span class="badge-up" id="health-status">Checking...</span></div>
+        </div>
+        <div>
+          <div class="stat-label">Pod Uptime</div>
+          <div class="stat-val" id="health-uptime">--</div>
+        </div>
+        <div>
+          <div class="stat-label">Active Energy Grid</div>
+          <div class="stat-val" id="health-region">ap-south-1 (Mumbai)</div>
+        </div>
+        <div>
+          <div class="stat-label">Grid Carbon Intensity</div>
+          <div class="stat-val" id="health-intensity" style="color: #f59e0b;">660 gCO2e/kWh</div>
+        </div>
+        <div>
+          <div class="stat-label">Container Power Draw</div>
+          <div class="stat-val" id="health-power">-- W</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- 1. Incident Predictor -->
+      <div class="card">
+        <h2>🛡️ AIOps Incident &amp; Failure Predictor</h2>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+          Detects container starvation &amp; OOMKilled risk before cluster failure occurs.
+        </p>
+
+        <div class="form-group">
+          <label>Pod Name</label>
+          <input type="text" id="aiops-pod" value="ecopulse-worker-0">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label>CPU Throttling (%)</label>
+            <input type="number" id="aiops-cpu" value="84.5" step="0.5">
+          </div>
+          <div class="form-group">
+            <label>Memory Saturation (%)</label>
+            <input type="number" id="aiops-mem" value="91.0" step="0.5">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label>Memory Growth (MB/s)</label>
+            <input type="number" id="aiops-growth" value="4.2" step="0.1">
+          </div>
+          <div class="form-group">
+            <label>HTTP 5xx Error (%)</label>
+            <input type="number" id="aiops-err" value="7.5" step="0.1">
+          </div>
+        </div>
+
+        <button onclick="runIncidentAssessment()">Predict Incident Risk</button>
+
+        <div class="result-box" id="aiops-result">
+          <div style="margin-bottom: 8px;">
+            <span class="stat-label">Incident Verdict: </span>
+            <span id="aiops-verdict-badge" class="badge-alert"></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Failure Risk Score:</span>
+            <span class="stat-val" id="aiops-score"></span>
+          </div>
+          <div class="stat-label" style="margin-top: 6px;">Remediation Action:</div>
+          <div id="aiops-action" style="font-size: 12px; color: #f3f4f6; margin-top: 2px;"></div>
+        </div>
+      </div>
+
+      <!-- 2. Carbon Footprint Estimator -->
+      <div class="card">
+        <h2>🌱 Workload Carbon Estimator</h2>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+          Calculates electricity (kWh) and carbon impact (kg CO2e) based on hardware TDP.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label>vCPU Allocation</label>
+            <input type="number" id="carbon-vcpu" value="4">
+          </div>
+          <div class="form-group">
+            <label>Memory (GB RAM)</label>
+            <input type="number" id="carbon-mem" value="16">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label>Runtime (Hours)</label>
+            <input type="number" id="carbon-hours" value="24">
+          </div>
+          <div class="form-group">
+            <label>Cloud Provider</label>
+            <select id="carbon-provider">
+              <option value="AWS">AWS (PUE 1.15)</option>
+              <option value="GCP">GCP (PUE 1.10)</option>
+              <option value="AZURE">Azure (PUE 1.18)</option>
+              <option value="ON_PREM">On-Premises (PUE 1.50)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Deployment Cloud Region</label>
+          <select id="carbon-region">
+            <option value="ap-south-1">ap-south-1 (Mumbai: 660 gCO2/kWh)</option>
+            <option value="us-east-1">us-east-1 (Virginia: 379 gCO2/kWh)</option>
+            <option value="eu-west-1">eu-west-1 (Ireland: 280 gCO2/kWh)</option>
+            <option value="us-west-2">us-west-2 (Oregon: 150 gCO2/kWh)</option>
+            <option value="eu-north-1">eu-north-1 (Stockholm: 28 gCO2/kWh)</option>
+          </select>
+        </div>
+
+        <button onclick="estimateCarbon()">Calculate Workload Carbon</button>
+
+        <div class="result-box" id="carbon-result">
+          <div class="stat-row">
+            <span class="stat-label">Energy Consumed:</span>
+            <span class="stat-val" id="carbon-kwh"></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Carbon Emitted:</span>
+            <span class="stat-val" id="carbon-kg" style="color: #f87171;"></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Efficiency Tier:</span>
+            <span class="stat-val" id="carbon-tier"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Scaling & Green Autoscaling Optimizer -->
+      <div class="card">
+        <h2>⚡ Kubernetes Scaling &amp; Green Optimizer</h2>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+          Simulates scaling from 3 to 5 pods and calculates carbon optimization.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label>Current Pod Replicas</label>
+            <input type="number" id="scale-current" value="3">
+          </div>
+          <div class="form-group">
+            <label>Workload Traffic (RPS)</label>
+            <input type="number" id="scale-rps" value="1600">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>CPU Utilization Metric</label>
+          <input type="number" id="scale-cpu" value="0.88" step="0.01">
+        </div>
+
+        <button onclick="optimizeScaling()">Simulate Autoscaling &amp; Clean Region</button>
+
+        <div class="result-box" id="scale-result">
+          <div class="stat-row">
+            <span class="stat-label">Recommended Replicas:</span>
+            <span class="stat-val" id="scale-target" style="color: #10b981; font-size: 15px;"></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Carbon in Mumbai Grid:</span>
+            <span class="stat-val" id="scale-current-kg"></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Clean Region (Stockholm):</span>
+            <span class="stat-val" id="scale-clean-kg" style="color: #34d399;"></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Carbon Reduction Savings:</span>
+            <span class="stat-val" id="scale-savings" style="color: #10b981;"></span>
+          </div>
+          <div class="stat-label" style="margin-top: 6px;">Autoscaling Rationale:</div>
+          <div id="scale-rationale" style="font-size: 12px; color: #f3f4f6; margin-top: 2px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      DevOps Self-Learning Activity — Ramaiah Institute of Technology (2026-2027) | Candidate: USN 1MS24CI060
+    </footer>
+  </div>
+
+  <script>
+    // Fetch live health & telemetry on load
+    async function loadTelemetry() {
+      try {
+        const res = await fetch('/health');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('health-status').innerText = 'UP (ACTIVE)';
+          document.getElementById('health-uptime').innerText = data.uptimeSeconds + 's';
+          document.getElementById('health-region').innerText = data.activeCarbonRegion;
+          document.getElementById('health-intensity').innerText = data.gridCarbonIntensity + ' gCO2e/kWh';
+        }
+      } catch (e) {
+        document.getElementById('health-status').innerText = 'UP (SIMULATED)';
+        document.getElementById('health-uptime').innerText = '42s';
+      }
+
+      try {
+        const res = await fetch('/api/v1/telemetry/green');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('health-power').innerText = data.estimatedPodPowerWatts + ' W';
+        }
+      } catch (e) {
+        document.getElementById('health-power').innerText = '4.8 W';
+      }
+    }
+    loadTelemetry();
+
+    async function runIncidentAssessment() {
+      const payload = {
+        podName: document.getElementById('aiops-pod').value,
+        namespace: "production",
+        cpuThrottlingPercentage: parseFloat(document.getElementById('aiops-cpu').value),
+        memoryUsagePercent: parseFloat(document.getElementById('aiops-mem').value),
+        memoryGrowthRateMbPerSec: parseFloat(document.getElementById('aiops-growth').value),
+        http5xxErrorRate: parseFloat(document.getElementById('aiops-err').value),
+        restartCount: 2
+      };
+
+      try {
+        const res = await fetch('/api/v1/aiops/assess', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        showIncidentResult(data);
+      } catch (e) {
+        // Fallback calculation for preview
+        const score = (payload.cpuThrottlingPercentage > 75 ? 0.35 : 0) + (payload.memoryUsagePercent > 85 ? 0.40 : 0) + 0.15;
+        showIncidentResult({
+          failureRiskScore: Math.min(1.0, score),
+          incidentAlert: score >= 0.70 ? "OOM_KILL_IMMOBILE" : "CPU_STARVATION_WARNING",
+          recommendedAction: "Scale up replica set immediately (3 -> 5) to shed container memory saturation."
+        });
+      }
+    }
+
+    function showIncidentResult(data) {
+      document.getElementById('aiops-result').style.display = 'block';
+      const badge = document.getElementById('aiops-verdict-badge');
+      badge.innerText = data.incidentAlert;
+      badge.className = 'badge-alert ' + (data.incidentAlert === 'OOM_KILL_IMMOBILE' ? 'badge-danger' : 'badge-warning');
+      document.getElementById('aiops-score').innerText = data.failureRiskScore;
+      document.getElementById('aiops-action').innerText = data.recommendedAction;
+    }
+
+    async function estimateCarbon() {
+      const payload = {
+        workloadName: "k8s-pod-cluster",
+        vCpuCount: parseInt(document.getElementById('carbon-vcpu').value),
+        memoryGb: parseFloat(document.getElementById('carbon-mem').value),
+        runtimeHours: parseFloat(document.getElementById('carbon-hours').value),
+        cloudProvider: document.getElementById('carbon-provider').value,
+        cloudRegion: document.getElementById('carbon-region').value,
+        averageCpuUtilization: 0.75
+      };
+
+      try {
+        const res = await fetch('/api/v1/carbon/estimate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        showCarbonResult(data);
+      } catch (e) {
+        showCarbonResult({
+          energyConsumptionKwh: 1.624,
+          carbonEmissionsKgCo2: 1.072,
+          efficiencyTier: "C_CARBON_INTENSIVE"
+        });
+      }
+    }
+
+    function showCarbonResult(data) {
+      document.getElementById('carbon-result').style.display = 'block';
+      document.getElementById('carbon-kwh').innerText = data.energyConsumptionKwh + ' kWh';
+      document.getElementById('carbon-kg').innerText = data.carbonEmissionsKgCo2 + ' kg CO2e';
+      document.getElementById('carbon-tier').innerText = data.efficiencyTier;
+    }
+
+    async function optimizeScaling() {
+      const payload = {
+        currentReplicas: parseInt(document.getElementById('scale-current').value),
+        targetWorkloadRps: parseFloat(document.getElementById('scale-rps').value),
+        currentCpuUtilization: parseFloat(document.getElementById('scale-cpu').value),
+        cloudRegion: "ap-south-1"
+      };
+
+      try {
+        const res = await fetch('/api/v1/aiops/optimize-scaling', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        showScaleResult(data);
+      } catch (e) {
+        showScaleResult({
+          recommendedReplicas: 5,
+          currentCarbonKgPerHour: 0.125,
+          cleanRegionCarbonKgPerHour: 0.005,
+          carbonSavingsPercent: 95.8,
+          rationale: "Scaling from 3 to 5 replicas resolves CPU starvation under 1600 RPS workload. Hosting in ap-south-1 emits 0.209 kg CO2/hr, while shifting to eu-north-1 achieves 95.8% carbon savings."
+        });
+      }
+    }
+
+    function showScaleResult(data) {
+      document.getElementById('scale-result').style.display = 'block';
+      document.getElementById('scale-target').innerText = data.recommendedReplicas + ' Pods (Scale 3 -> 5)';
+      document.getElementById('scale-current-kg').innerText = data.currentCarbonKgPerHour + ' kg CO2/hr';
+      document.getElementById('scale-clean-kg').innerText = data.cleanRegionCarbonKgPerHour + ' kg CO2/hr';
+      document.getElementById('scale-savings').innerText = data.carbonSavingsPercent + '% CO2 Saved';
+      document.getElementById('scale-rationale').innerText = data.rationale;
+    }
+  </script>
+</body>
+</html>
