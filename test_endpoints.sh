@@ -4,7 +4,7 @@
 # Student USN: 1MS24CI060 | Ramaiah Institute of Technology
 # ==============================================================================
 
-BASE_URL="http://localhost:8080"
+BASE_URL="http://localhost:8085"
 echo "=================================================================="
 echo "  TESTING ECOPULSE ENDPOINTS (TARGET: ${BASE_URL})                "
 echo "=================================================================="
