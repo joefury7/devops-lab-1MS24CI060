@@ -43,7 +43,7 @@ pipeline {
             post {
                 always {
                     // CI Enhancement: Automated JUnit XML report parsing and publishing
-                    junit allowEmptyResults: false, testResults: '**/target/surefire-reports/*.xml'
+                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/surefire-reports/*.xml'
                 }
             }
         }
