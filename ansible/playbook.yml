@@ -8,7 +8,7 @@
   become: yes
   vars:
     app_name: ecopulse-aiops
-    app_port: 8080
+    ecopulse_port: 8085
     student_usn: 1MS24CI060
     deploy_dir: /opt/ecopulse
     jar_source: ../ecopulse/target/ecopulse-aiops-1.0.0.jar
@@ -21,7 +21,7 @@
   tasks:
     - name: Verify EcoPulse health endpoint
       uri:
-        url: "http://localhost:{{ app_port }}/health"
+        url: "http://localhost:{{ ecopulse_port }}/health"
         method: GET
         status_code: 200
       register: health_result
@@ -32,7 +32,7 @@
 
     - name: Log deployment status
       debug:
-        msg: "EcoPulse AIOps successfully deployed by USN {{ student_usn }} on port {{ app_port }}."
+        msg: "EcoPulse AIOps successfully deployed by USN {{ student_usn }} on port {{ ecopulse_port }}."
 
   handlers:
     - name: restart ecopulse

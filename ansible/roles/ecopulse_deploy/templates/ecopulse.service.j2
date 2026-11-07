@@ -7,7 +7,7 @@ Type=simple
 User=ecopulse
 Group=ecopulse
 WorkingDirectory={{ deploy_dir }}
-ExecStart=/usr/bin/java -Xms128m -Xmx512m -jar {{ deploy_dir }}/ecopulse-aiops.jar --server.port={{ app_port }} --ecopulse.default.region={{ default_grid_region }}
+ExecStart=/usr/bin/java -Xms128m -Xmx512m -jar {{ deploy_dir }}/ecopulse-aiops.jar --server.port={{ ecopulse_port | default(app_port) }} --ecopulse.default.region={{ default_grid_region }}
 Restart=always
 RestartSec=5
 StandardOutput=journal
