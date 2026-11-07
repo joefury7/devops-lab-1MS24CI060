@@ -18,7 +18,7 @@ public class HealthController {
         this.carbonService = carbonService;
     }
 
-    @GetMapping({"/", "/health"})
+    @GetMapping("/health")
     public ResponseEntity<EcoHealthResponse> getHealth() {
         long uptime = (System.currentTimeMillis() - initTimeMillis) / 1000;
         String region = carbonService.getDefaultRegion();
