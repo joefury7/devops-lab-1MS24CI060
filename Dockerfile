@@ -26,4 +26,4 @@ EXPOSE 8085
 ENV SERVER_PORT=8085 \
     ECOPULSE_DEFAULT_REGION=ap-south-1
 
-ENTRYPOINT ["java", "-Xms128m", "-Xmx512m", "-jar", "/app/ecopulse-aiops.jar", "--server.port=8085"]
+ENTRYPOINT ["java", "-Xms128m", "-Xmx512m", "-jar", "/app/ecopulse-aiops.jar"]

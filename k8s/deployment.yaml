@@ -23,7 +23,7 @@ spec:
           image: ecopulse-aiops:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 8085
               name: http
           envFrom:
             - configMapRef:
@@ -39,7 +39,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: 8085
             initialDelaySeconds: 20
             periodSeconds: 10
             timeoutSeconds: 3
@@ -47,7 +47,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: 8085
             initialDelaySeconds: 15
             periodSeconds: 5
             timeoutSeconds: 2

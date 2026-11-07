@@ -10,8 +10,8 @@ spec:
   selector:
     app: ecopulse-aiops
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 8085
+      targetPort: 8085
       nodePort: 30080
       protocol: TCP
       name: http
