@@ -25,6 +25,9 @@ spec:
           ports:
             - containerPort: 8085
               name: http
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms64m -Xmx256m -XX:+UseSerialGC"
           envFrom:
             - configMapRef:
                 name: ecopulse-config
@@ -34,13 +37,13 @@ spec:
               memory: "128Mi"
             limits:
               cpu: "500m"
-              memory: "512Mi"
+              memory: "768Mi"
           # Component 2 Enhancement: Liveness & Readiness Probes
           livenessProbe:
             httpGet:
               path: /health
               port: 8085
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 3

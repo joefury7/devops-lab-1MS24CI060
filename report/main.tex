@@ -555,8 +555,9 @@ kubectl scale deployment ecopulse-aiops --replicas=3
 \end{lstlisting}
 
 \subsubsection*{Step 5: Deployment Enhancement}
-Two deployment enhancements were incorporated:
+Three robust deployment enhancements were implemented and demonstrated live:
 \begin{enumerate}[nosep]
+    \item \textbf{Automated Kubernetes Rollback Demo:} Demonstrated zero downtime and automated disaster recovery by pushing an intentionally faulty image tag (\texttt{ecopulse-aiops:v2-broken}). Kubernetes detected the failure via \texttt{ErrImagePull}, halted the rollout, and kept existing healthy replicas serving live traffic without dropping requests. Running \texttt{kubectl rollout undo deployment/ecopulse-aiops} instantaneously restored the deployment to a clean revision.
     \item \textbf{Decoupled Configuration via ConfigMap (\texttt{ecopulse-config}):} Extracted environmental variables (\texttt{APP\_ENV}, \texttt{SERVER\_PORT}, \texttt{ECOPULSE\_DEFAULT\_REGION}) into a Kubernetes ConfigMap, allowing dynamic adjustments to electrical grid models without container rebuilds.
     \item \textbf{Self-Healing Liveness and Readiness Probes:} Configured HTTP health checks against \texttt{/health}. The readiness probe ensures pods only receive traffic after complete JVM initialization; the liveness probe automatically restarts unresponsive containers.
 \end{enumerate}
