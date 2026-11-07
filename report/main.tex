@@ -441,7 +441,7 @@ The Ansible architecture uses an inventory file (\texttt{inventory.ini}) and a s
   become: yes
   vars:
     app_name: ecopulse-aiops
-    app_port: 8080
+    ecopulse_port: 8085
     student_usn: 1MS24CI060
     deploy_dir: /opt/ecopulse
     jar_source: ../ecopulse/target/ecopulse-aiops-1.0.0.jar
@@ -474,8 +474,8 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 COPY --from=builder /workspace/target/ecopulse-aiops-1.0.0.jar /app/ecopulse-aiops.jar
 RUN chown -R appuser:appgroup /app
 USER appuser
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app/ecopulse-aiops.jar"]
+EXPOSE 8085
+ENTRYPOINT ["java", "-Xms128m", "-Xmx512m", "-jar", "/app/ecopulse-aiops.jar", "--server.port=8085"]
 \end{lstlisting}
 
 \subsubsection*{Step 3: Kubernetes Deployment and Service Manifests}
