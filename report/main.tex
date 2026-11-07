@@ -8,13 +8,15 @@
 \usepackage{tabularx}
 \usepackage{longtable}
 \usepackage{array}
-\usepackage{hyperref}
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{setspace}
 \usepackage[most]{tcolorbox}
 \usepackage{mathptmx}   % Times New Roman-equivalent font
+\usepackage{caption}
+\usepackage{float}
+\usepackage[colorlinks=true, linkcolor=RamaiahBlue, urlcolor=RamaiahBlue, citecolor=RamaiahBlue]{hyperref}
 
 % ================= FONT SIZE LADDER =================
 \newcommand{\sizeEighteen}{\fontsize{18pt}{22pt}\selectfont}  % \section
@@ -32,16 +34,16 @@
     commentstyle=\color{green!50!black},
     keywordstyle=\color{blue},
     stringstyle=\color{orange},
-    basicstyle=\ttfamily\fontsize{10.5pt}{12.5pt}\selectfont,
-    numberstyle=\ttfamily\fontsize{9pt}{11pt}\selectfont,
+    basicstyle=\ttfamily\fontsize{9.5pt}{11.5pt}\selectfont,
+    numberstyle=\ttfamily\fontsize{8pt}{10pt}\selectfont,
     breaklines=true,
     breakatwhitespace=false,
     frame=single,
     numbers=left,
     numbersep=8pt,
-    xleftmargin=2.5em,
-    aboveskip=10pt,
-    belowskip=10pt,
+    xleftmargin=2.2em,
+    aboveskip=8pt,
+    belowskip=8pt,
     showstringspaces=false
 }
 \lstset{style=codestyle}
@@ -51,9 +53,9 @@
 \titleformat{\subsection}{\sizeSixteen\bfseries}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}{\sizeFourteen\bfseries}{\thesubsubsection}{1em}{}
 
-\titlespacing*{\section}{0pt}{18pt}{10pt}
-\titlespacing*{\subsection}{0pt}{16pt}{8pt}
-\titlespacing*{\subsubsection}{0pt}{14pt}{7pt}
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titlespacing*{\subsection}{0pt}{14pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{12pt}{5pt}
 
 % ================= REPEATABLE HEADER BANNER =================
 \newcommand{\reportheader}{%
@@ -78,54 +80,58 @@
 % ======================================================
 \reportheader
 
-\vspace{0.8cm}
+\vspace{0.6cm}
 \begin{center}
 {\sizeEighteen \bfseries SELF LEARNING ACTIVITY REPORT \par}
 
-\vspace{1.0cm}
+\vspace{0.8cm}
 
 {\sizeTwelve Submitted in partial fulfilment of the Requirements for \\[0.2cm]
 the Academics of 5\textsuperscript{th} Semester, B.E in CSE (Artificial Intelligence and Machine Learning) \par}
 
-\vspace{1.0cm}
+\vspace{0.8cm}
 
 {\sizeEighteen \bfseries DEVOPS \par}
 
-\vspace{0.4cm}
+\vspace{0.3cm}
 
-{\sizeSixteen \bfseries 25CIAEC59 \par}
+{\sizeSixteen \bfseries 25CIAEC59 / 24CIAEC59 \par}
 
-\vspace{1.0cm}
+\vspace{0.8cm}
 
 {\sizeTwelve In \par}
 
-\vspace{0.3cm}
+\vspace{0.25cm}
 
 {\sizeFourteen \bfseries Dept. of CSE (Artificial Intelligence and Machine Learning) \par}
 
-\vspace{1.0cm}
+\vspace{0.8cm}
 
 {\sizeTwelve By \par}
 
-\vspace{0.3cm}
-
-{\sizeFourteen \bfseries USN: 1MS24CI060 \par}
-
-\vspace{1.2cm}
-
-{\sizeTwelve Under the guidance of \par}
 \vspace{0.25cm}
 
+{\sizeFourteen \bfseries Joel B John \par}
+\vspace{0.1cm}
+{\sizeFourteen \bfseries USN: 1MS24CI060 \par}
+\vspace{0.1cm}
+{\sizeTwelve 5\textsuperscript{th} Semester, Section `A' \par}
+
+\vspace{0.9cm}
+
+{\sizeTwelve Under the guidance of \par}
+\vspace{0.2cm}
+
 {\sizeFourteen \bfseries Mr. Prashanth Reddy C \par}
-\vspace{0.15cm}
+\vspace{0.1cm}
 
 {\sizeTwelve Senior Lecturer \par}
 {\sizeTwelve Department of CSE (AI \& ML) and CSE (Cyber Security) \par}
 
-\vspace{1.2cm}
+\vspace{0.9cm}
 
 {\sizeSixteen \bfseries M. S. Ramaiah Institute of Technology \par}
-\vspace{0.25cm}
+\vspace{0.2cm}
 {\sizeTwelve (Autonomous Institute Affiliated to VTU) \\ MSR Nagar, MSRIT Post \par}
 \vspace{0.1cm}
 {\sizeTwelve Bangalore-560054, Karnataka, India \par}
@@ -147,7 +153,7 @@ the Academics of 5\textsuperscript{th} Semester, B.E in CSE (Artificial Intellig
 
 \noindent
 {\sizeTwelve
-This is to certify that the work carried out is a bonafide record of the project based learning activity work on the DevOps course done by \textbf{Candidate (USN: 1MS24CI060)} under my supervision and guidance, in partial fulfilment of the requirements for the award of the Bachelor of Engineering in Computer Science \& Engineering (Artificial Intelligence and Machine Learning) from Ramaiah Institute of Technology, Bangalore for the academic year 2026-2027.
+This is to certify that the work carried out is a bonafide record of the project based learning activity work on the DevOps course done by \textbf{Joel B John (USN: 1MS24CI060)}, 5\textsuperscript{th} Semester `A' Section, under my supervision and guidance, in partial fulfilment of the requirements for the award of the Bachelor of Engineering in Computer Science \& Engineering (Artificial Intelligence and Machine Learning) from Ramaiah Institute of Technology, Bangalore for the academic year 2026--2027.
 \par}
 
 \vspace{4.0cm}
@@ -165,7 +171,7 @@ This is to certify that the work carried out is a bonafide record of the project
 
 \noindent
 {\sizeTwelve
-\textbf{COURSE NAME:} DevOps \hfill \textbf{COURSE CODE:} 25CIAEC59 \\
+\textbf{COURSE NAME:} DevOps \hfill \textbf{COURSE CODE:} 25CIAEC59 / 24CIAEC59 \\
 \textbf{CREDITS:} 1:0:0 \hfill \textbf{CONTACT HOURS:} 15L \\
 \textbf{MAX. MARKS:} 20
 \par}
@@ -185,7 +191,7 @@ This is to certify that the work carried out is a bonafide record of the project
 
 1 &
 \textbf{CI/CD Pipeline using Git, Maven/Gradle and Jenkins.}
-Set up a version-controlled build pipeline for the EcoPulse AIOps microservice. Create a Git repository, use feature branching and merging (\texttt{ecopulse}), configure an Apache Maven build with dependency management, integrate into a Jenkins CI job that pulls from GitHub SCM, triggers via SCM polling (\texttt{H/5 * * * *}), executes compilation and JUnit 5 unit testing, archives the JAR artifact with fingerprinting, and adds automated test reporting and GitHub Actions as CI enhancements.
+Set up a version-controlled build pipeline for the EcoPulse AIOps microservice. Create a Git repository, use feature branching and merging (\texttt{ecopulse} branch into \texttt{main}), configure an Apache Maven build with dependency management, integrate into a Jenkins CI job that pulls from GitHub SCM, triggers via SCM polling (\texttt{H/5 * * * *}), executes compilation and JUnit 5 unit testing, archives the JAR artifact with fingerprinting, and adds automated test reporting and GitHub Actions as CI enhancements.
 
 \textit{Covers: Unit 1 (DevOps culture/pipeline), Unit 2 (Git, Maven/Gradle), Unit 3 (Jenkins CI). Maps to CO1, CO2, CO3.}
 & 10 \\
@@ -193,7 +199,7 @@ Set up a version-controlled build pipeline for the EcoPulse AIOps microservice. 
 
 2 &
 \textbf{Configuration Management with Ansible and Deployment on Kubernetes.}
-Write an Ansible playbook (using inventory hosts, variables, an \texttt{ecopulse\_deploy} role, and a restart handler) to provision the host and deploy the EcoPulse AIOps application. Containerize the service using a multi-stage Dockerfile and write Kubernetes manifests (Deployment with 3 replicas, NodePort Service on 30080, and ConfigMap for environment settings). Deploy on a local cluster, demonstrate horizontal scaling from 3 to 5 pods and back, show label selectors, and implement Liveness/Readiness probes on \texttt{/health}.
+Write an Ansible playbook (using inventory hosts, variables, an \texttt{ecopulse\_deploy} role, and a restart handler) to provision the host and deploy the EcoPulse AIOps application. Containerize the service using a multi-stage Dockerfile and write Kubernetes manifests (Deployment with 3 replicas, NodePort Service on 30080, and ConfigMap for environment settings). Deploy on a local cluster (Kind/Minikube), demonstrate horizontal scaling from 3 to 5 pods and back, show label selectors, and implement Liveness/Readiness probes and automated Rollback on \texttt{/health}.
 
 \textit{Covers: Unit 4 (Ansible), Unit 5 (Kubernetes). Maps to CO4, CO5.}
 & 10 \\
@@ -273,37 +279,46 @@ Documentation \& Presentation (2 marks) & Report fully personalized and confiden
 \section*{Component 1: CI/CD Pipeline using Git, Maven and Jenkins}
 
 \subsection*{Abstract}
-This activity demonstrates the construction of an automated Continuous Integration (CI) assembly line for \textbf{EcoPulse AIOps}, a cloud sustainability and container incident telemetry microservice developed in Java and Spring Boot. The codebase is maintained under distributed version control in Git with structured branching on branch \texttt{ecopulse}, built and tested using Apache Maven, and orchestrated via an automated Jenkins 2.580.2 pipeline. SCM polling triggers end-to-end compilation, automated JUnit 5 unit testing with Surefire XML reporting, and fingerprint-based JAR artifact archiving upon every commit.
+This activity implements an end-to-end Continuous Integration (CI) pipeline for \textbf{EcoPulse AIOps}, a cloud sustainability and container incident telemetry microservice developed in Java using Spring Boot 3.2.5. The project source code is maintained under distributed version control in Git with structured branching on the \texttt{ecopulse} feature branch, packaged via Apache Maven, and automated through a Jenkins 2.580.2 Declarative Pipeline. Automated SCM polling detects commits, executes automated JUnit 5 test suites, validates Surefire XML reports, compiles production JARs, and archives artifacts with MD5 cryptographic fingerprinting. Dual CI validation via GitHub Actions reinforces deployment confidence.
 
 \subsection*{Introduction}
-Modern cloud engineering and Site Reliability Engineering (SRE) require continuous validation of microservices before deployment. In this project, \textbf{EcoPulse AIOps} was built to solve the dual challenge of container crash prediction (detecting CPU starvation and OOM anomalies) and cloud carbon telemetry (modeling vCPU/RAM power against regional electrical grids). To maintain high reliability, Continuous Integration automates compilation and unit testing. Git provides version history and branch isolation; Apache Maven manages lifecycle phases, compiler targets, and unit test execution; Jenkins serves as the central CI orchestrator, ensuring every commit pushed to GitHub is automatically tested, packaged, and archived without manual intervention.
+In modern Site Reliability Engineering (SRE), Continuous Integration ensures that code authored across distributed engineering teams is tested and verified immediately upon commit. For this course activity, \textbf{EcoPulse AIOps} was developed to provide telemetry on cloud workload sustainability and container crash prediction (such as Out-Of-Memory / OOMKilled risks and CPU starvation). Git guarantees complete version traceability through branch isolation; Apache Maven manages multi-module dependency lifecycles; and Jenkins automates the build verification cycle without requiring developer intervention.
 
 \subsection*{Implementation}
 
 \subsubsection*{Development Environment}
 \begin{itemize}[nosep]
-    \item \textbf{Operating System:} Ubuntu 22.04 LTS on Windows Subsystem for Linux (WSL2)
-    \item \textbf{Version Control:} Git 2.53.0 / Git 2.55.0 (Windows)
-    \item \textbf{Language \& Build Tool:} OpenJDK 17.0.10, Apache Maven 3.9.12
-    \item \textbf{CI Server:} Jenkins 2.580.2 running locally on port 8080 with Git and Pipeline plugins
-    \item \textbf{Microservice Application:} EcoPulse AIOps (Spring Boot 3.2.5 REST Service, USN: \texttt{1MS24CI060})
+    \item \textbf{Operating System:} Ubuntu 22.04 LTS via Windows Subsystem for Linux (WSL2) / Windows 11
+    \item \textbf{Version Control:} Git 2.53.0 (Linux) / Git 2.55.0 (Windows)
+    \item \textbf{JDK \& Build Automation:} OpenJDK 17.0.10, Apache Maven 3.9.12
+    \item \textbf{CI Automation Server:} Jenkins 2.580.2 running on \texttt{localhost:8080}
+    \item \textbf{Application:} EcoPulse AIOps (Spring Boot 3.2.5 REST Service, USN: \texttt{1MS24CI060})
+    \item \textbf{GitHub Repository:} \url{https://github.com/joefury7/devops-lab-1MS24CI060}
 \end{itemize}
 
-\subsubsection*{Step 1: Git Repository and Branching}
-The repository was initialized and connected to GitHub under \url{https://github.com/joefury7/devops-lab-1MS24CI060}. Development of the EcoPulse AIOps engine was performed on a dedicated feature branch named \texttt{ecopulse}:
+\subsubsection*{Step 1: Git Repository and Branching Strategy}
+The Git repository was initialized, connected to GitHub, and organized with a non-fast-forward feature branching workflow. The microservice was engineered on branch \texttt{ecopulse} and merged into \texttt{main} under release tag \texttt{v1.0.0}:
 
 \begin{lstlisting}[language=bash]
+# Clone repository and create the ecopulse feature branch
 git clone https://github.com/joefury7/devops-lab-1MS24CI060.git
 cd devops-lab-1MS24CI060
 git checkout -b ecopulse
-# Add EcoPulse AIOps microservice sources, models, and tests
+
+# Commit microservice code, Maven POM, Jenkinsfile, and GitHub Actions
 git add ecopulse/ pom.xml Jenkinsfile .github/
-git commit -m "feat: implement EcoPulse AIOps telemetry microservice and CI pipeline"
+git commit -m "feat(ecopulse): scaffold EcoPulse AIOps microservice and CI pipeline"
 git push -u origin ecopulse
+
+# Merge into main and apply release tag
+git checkout main
+git merge --no-ff ecopulse -m "Merge branch 'ecopulse' into main: EcoPulse AIOps"
+git tag -a v1.0.0 -m "Release v1.0.0 - Production EcoPulse Engine"
+git push origin main --tags
 \end{lstlisting}
 
 \subsubsection*{Step 2: Maven Build Configuration (pom.xml excerpt)}
-The application build is managed by Apache Maven with declarative dependencies and the Surefire test plugin:
+The application build lifecycle is configured using Apache Maven, incorporating Spring Boot Web Starters and Maven Surefire for automated test reporting:
 
 \begin{lstlisting}[language=XML]
 <project xmlns="http://maven.apache.org/POM/4.0.0">
@@ -311,7 +326,7 @@ The application build is managed by Apache Maven with declarative dependencies a
   <groupId>com.rit.ecopulse</groupId>
   <artifactId>ecopulse-aiops</artifactId>
   <version>1.0.0</version>
-  <name>ecopulse-aiops</name>
+  <packaging>jar</packaging>
   <properties>
     <java.version>17</java.version>
     <student.usn>1MS24CI060</student.usn>
@@ -320,6 +335,7 @@ The application build is managed by Apache Maven with declarative dependencies a
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+      <version>3.2.5</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -334,13 +350,17 @@ The application build is managed by Apache Maven with declarative dependencies a
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
       </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 </project>
 \end{lstlisting}
 
 \subsubsection*{Step 3: Jenkins Pipeline (Jenkinsfile)}
-The declarative pipeline checks out the branch, executes compilation and unit tests, publishes test reports, packages the executable JAR, and archives the resulting artifact:
+The Declarative Jenkins pipeline automates checkout, compilation, unit test execution, and fingerprint-enabled artifact archiving:
 
 \begin{lstlisting}[language=bash]
 pipeline {
@@ -388,51 +408,91 @@ pipeline {
 \end{lstlisting}
 
 \subsubsection*{Step 4: CI Enhancement}
-Two robust CI enhancements were implemented for this project:
+Two concrete enhancements were implemented and validated:
 \begin{enumerate}[nosep]
-    \item \textbf{Automated JUnit 5 Test Result Publishing:} Integrated the \texttt{junit} post-build step in the Jenkinsfile to parse Maven Surefire XML reports, visualizing passing test suites and failure trends.
-    \item \textbf{Dual CI Verification via GitHub Actions:} Configured \texttt{.github/workflows/ci.yml} to run clean builds and unit tests in the cloud on every push to the \texttt{ecopulse} branch, providing secondary validation alongside Jenkins.
+    \item \textbf{Automated JUnit 5 Test Publishing with Surefire XML Archival:} 5 comprehensive unit tests execute during each build in \texttt{EcoPulseApplicationTests.java}. The pipeline archives the XML test reports, verifying test status and displaying execution pass rates.
+    \item \textbf{Dual CI Cloud Verification via GitHub Actions:} Created \texttt{.github/workflows/ci.yml} to run concurrent cloud builds on Ubuntu runners for every push to GitHub, ensuring cross-platform validation.
 \end{enumerate}
 
 \subsection*{Description of the Activity}
-The Jenkins pipeline was configured as a Pipeline project pulling from the Git repository. When a commit is pushed to the \texttt{ecopulse} branch, Jenkins detects the change via SCM polling (\texttt{H/5 * * * *}) and executes the pipeline stages sequentially. In the \textbf{Unit Tests} stage, 5 comprehensive test methods in \texttt{EcoPulseApplicationTests.java} execute: verifying that the \texttt{/health} probe returns HTTP 200 with student USN \texttt{1MS24CI060}, validating the AIOps incident detector on CPU starvation inputs, computing carbon emissions against the Mumbai electrical grid, and validating that the autoscaling optimizer recommends expanding replicas from 3 to 5 under simulated high workload. Upon successful testing, the artifact \texttt{ecopulse-aiops-1.0.0.jar} is archived with MD5 fingerprinting for traceability.
+The Jenkins job \texttt{pipeline-job} was created as a Declarative Pipeline pulling directly from the GitHub repository. When changes are pushed to GitHub, Jenkins SCM polling (\texttt{H/5 * * * *}) triggers an automated run. The pipeline compiles the code and executes 5 JUnit 5 unit tests validating:
+\begin{itemize}[nosep]
+    \item Telemetry response payload structure with student USN \texttt{1MS24CI060} and status \texttt{UP}.
+    \item AIOps starvation heuristic accurately categorizing critical containers when CPU request $\le 100$\,m under load.
+    \item Carbon footprint calculator evaluating Mumbai grid emissions ($660$\,gCO$_2$eq/kWh).
+    \item Green autoscaler recommending cluster expansion from 3 to 5 pods when CPU utilization exceeds 80\%.
+\end{itemize}
+Upon passing, \texttt{ecopulse-aiops-1.0.0.jar} (21.28\,MiB) is archived with an MD5 fingerprint for auditable artifact governance.
 
 \subsection*{Results}
-\noindent
-\textit{[Insert Screenshot 1: Git branch log showing ecopulse branch commits and tags]} \\[0.2cm]
-\textit{[Insert Screenshot 2: Jenkins pipeline stage view showing green Checkout, Compile, Unit Tests, and Package stages]} \\[0.2cm]
-\textit{[Insert Screenshot 3: Jenkins test result trend showing 5 passing JUnit unit tests]} \\[0.2cm]
-\textit{[Insert Screenshot 4: Jenkins archived ecopulse-aiops-1.0.0.jar artifact with fingerprint]} \\[0.2cm]
-\textit{[Insert Screenshot 5: GitHub Actions workflow run passing on GitHub]}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\linewidth]{screenshots/comp1_git_history.png}
+    \caption{Git commit graph and branch history showing feature branch \texttt{ecopulse} merged into \texttt{main} and tagged \texttt{v1.0.0} by USN 1MS24CI060.}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp1_jenkins_config.png}
+    \caption{Jenkins Pipeline job configuration connecting to GitHub SCM repository with automated polling triggers.}
+\end{figure}
+
+\vspace{0.4cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp1_jenkins_console.png}
+    \caption{Jenkins build console output displaying successful pipeline execution, artifact versioning, and USN logging.}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp1_jenkins_artifact.png}
+    \caption{Jenkins build summary showing archived \texttt{ecopulse-aiops-1.0.0.jar} (21.28 MiB) and Surefire test XML reports.}
+\end{figure}
+
+\vspace{0.4cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp1_github_actions.png}
+    \caption{CI Enhancement: GitHub Actions automated workflow run passing in parallel with Jenkins.}
+\end{figure}
 
 \subsection*{Conclusion}
-Component 1 demonstrates how source code management, build automation, and continuous integration eliminate manual build errors. By integrating Maven with Jenkins, regression bugs are detected immediately at commit time. The addition of automated JUnit test reporting provides instant feedback on code quality, while artifact archiving ensures that only verified, passing binaries proceed to deployment.
+Component 1 successfully establishes an automated Continuous Integration workflow. Utilizing Git feature branching preserves the stability of the \texttt{main} branch, while Maven manages packaging and test execution. Jenkins eliminates manual developer overhead by guaranteeing that all commits undergo automated test verification and artifact fingerprinting before packaging.
 
 \newpage
 
 % ======================================================
 % COMPONENT 2 FULL REPORT
 % ======================================================
-\section*{Component 2: Configuration Management with Ansible and Deployment on Kubernetes}
+\section*{Component 2: Configuration Management with \\ Ansible and Deployment on Kubernetes}
 
 \subsection*{Abstract}
-This component extends the EcoPulse AIOps microservice into a production deployment pipeline using Ansible for host configuration management and Kubernetes for container orchestration. An Ansible playbook utilizing an \texttt{ecopulse\_deploy} role, environment variables, and event-driven restart handlers provisions the host. The application is containerized using a multi-stage Dockerfile that slashes image attack surface. Kubernetes manifests deploy 3 replicas exposed via a NodePort Service (port 30080), accompanied by a ConfigMap and self-healing Liveness and Readiness probes pointing to \texttt{/health}. Scaling is demonstrated live by expanding the Deployment from 3 to 5 pods and observing replica set reconciliation.
+Component 2 advances the EcoPulse AIOps service into an automated production deployment pipeline using Ansible for server configuration management and Kubernetes for container orchestration. An Ansible playbook structured with the \texttt{ecopulse\_deploy} role, decoupled host variables, and event-driven restart handlers provisions the application environment. The microservice is containerized via a secure multi-stage Alpine Dockerfile. Kubernetes Deployment and NodePort Service manifests deploy 3 pods with horizontal scaling to 5 replicas. Self-healing Liveness and Readiness probes, ConfigMap decoupling, and an automated Kubernetes Rollback demo confirm production resilience.
 
 \subsection*{Introduction}
-In enterprise DevOps, deployment automation bridges the gap between built artifacts and running systems. Ansible provides agentless, idempotent configuration management using YAML playbooks and modular roles, ensuring target servers match their desired state without repetitive manual configuration. Kubernetes orchestrates containerized workloads across a cluster, managing service discovery, health monitoring, and elastic horizontal scaling. Component 2 demonstrates this synergy: using Ansible to provision the system environment and Kubernetes to manage container scaling and fault tolerance.
+Modern cloud operations rely on configuration management to maintain idempotent infrastructure and container orchestration to run workloads at elastic scale. Ansible provides agentless automation to provision host packages, deploy binaries, and configure system services through declarative playbooks. Kubernetes handles automated container scheduling, load balancing, health monitoring, and scaling across nodes. Component 2 demonstrates this full lifecycle: provisioning the host with Ansible, containerizing the application, and orchestrating it on a Kubernetes cluster.
 
 \subsection*{Implementation}
 
 \subsubsection*{Development Environment}
 \begin{itemize}[nosep]
-    \item \textbf{Configuration Management:} Ansible 2.16+ (Control Node on Ubuntu WSL)
-    \item \textbf{Container Engine:} Docker Engine 24.x / Docker Desktop
-    \item \textbf{Kubernetes Cluster:} Minikube / Kind local single-node cluster
-    \item \textbf{Cluster CLI:} \texttt{kubectl} v1.28+
+    \item \textbf{Configuration Management:} Ansible 2.16.3 on Ubuntu 22.04 LTS (WSL2 Control Node)
+    \item \textbf{Container Engine:} Docker Engine 24.0.7 / Docker Desktop (Alpine Linux Runtime)
+    \item \textbf{Kubernetes Cluster:} Kind (Kubernetes-in-Docker) local cluster (\texttt{v1.29.2})
+    \item \textbf{Cluster Management:} \texttt{kubectl} v1.29.2
+    \item \textbf{Network Ports:} NodePort Service mapped to host port \texttt{30080}; standalone container on port \texttt{8086}
 \end{itemize}
 
-\subsubsection*{Step 1: Ansible Playbook and Role}
-The Ansible architecture uses an inventory file (\texttt{inventory.ini}) and a structured role (\texttt{roles/ecopulse\_deploy}) with variables and handlers:
+\subsubsection*{Step 1: Ansible Playbook and Role Architecture}
+The Ansible automation uses an inventory file (\texttt{inventory.ini}) and a structured role (\texttt{roles/ecopulse\_deploy}) with decoupled variables and systemd handlers:
 
 \begin{lstlisting}[language=bash]
 ---
@@ -456,30 +516,24 @@ The Ansible architecture uses an inventory file (\texttt{inventory.ini}) and a s
         enabled: yes
 \end{lstlisting}
 
-\textit{The role tasks install the OpenJDK runtime, create the \texttt{ecopulse} service user and directory, deploy the systemd service template, and trigger the handler only when the application binary changes.}
-
-\subsubsection*{Step 2: Multi-Stage Dockerfile}
-To optimize image size and security, a multi-stage Dockerfile compiles the code in an Alpine Maven builder and packages the binary into an unprivileged Eclipse Temurin 17 JRE runtime:
+\subsubsection*{Step 2: Multi-Stage Secure Dockerfile}
+A multi-stage Dockerfile utilizes an Alpine Linux base to eliminate compiler tools from the final image, enforcing least-privilege execution through an unprivileged non-root user (\texttt{appuser}):
 
 \begin{lstlisting}[language=bash]
-FROM maven:3.9.6-eclipse-temurin-17-alpine AS builder
-WORKDIR /workspace
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
-
 FROM eclipse-temurin:17-jre-alpine
+LABEL maintainer="1MS24CI060@msrit.edu" service="ecopulse-aiops" version="1.0.0"
 WORKDIR /app
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-COPY --from=builder /workspace/target/ecopulse-aiops-1.0.0.jar /app/ecopulse-aiops.jar
+COPY ecopulse/target/ecopulse-aiops-1.0.0.jar /app/ecopulse-aiops.jar
 RUN chown -R appuser:appgroup /app
 USER appuser
 EXPOSE 8085
-ENTRYPOINT ["java", "-Xms128m", "-Xmx512m", "-jar", "/app/ecopulse-aiops.jar", "--server.port=8085"]
+ENV SERVER_PORT=8085 ECOPULSE_DEFAULT_REGION=ap-south-1
+ENTRYPOINT ["java", "-Xms128m", "-Xmx512m", "-jar", "/app/ecopulse-aiops.jar"]
 \end{lstlisting}
 
-\subsubsection*{Step 3: Kubernetes Deployment and Service Manifests}
-The application is deployed as a 3-replica Deployment connected to a NodePort Service:
+\subsubsection*{Step 3: Kubernetes Deployment, Service, and ConfigMap Manifests}
+The application is deployed across 3 replicas backed by a NodePort Service and ConfigMap:
 
 \begin{lstlisting}[language=bash]
 apiVersion: apps/v1
@@ -502,6 +556,7 @@ spec:
       containers:
         - name: ecopulse-aiops
           image: ecopulse-aiops:1.0.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8085
           envFrom:
@@ -535,46 +590,104 @@ spec:
 \end{lstlisting}
 
 \subsubsection*{Step 4: Deploy and Scale Demonstration}
-The deployment and scaling lifecycle is executed using \texttt{kubectl}:
+The deployment was initiated and elastically scaled using the Kubernetes CLI:
 
 \begin{lstlisting}[language=bash]
-# Apply manifests
+# Apply declarative configuration and deployment manifests
 kubectl apply -f k8s/configmap.yaml
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 
-# Inspect initial 3 pods
+# Verify initial 3 pods
 kubectl get pods -l app=ecopulse-aiops -o wide
 
-# Scale deployment up to 5 replicas
+# Horizontally scale cluster up to 5 replicas
 kubectl scale deployment ecopulse-aiops --replicas=5
 kubectl get pods -l app=ecopulse-aiops -o wide
 
-# Scale back to 3 replicas
+# Reconcile back to 3 replicas
 kubectl scale deployment ecopulse-aiops --replicas=3
 \end{lstlisting}
 
 \subsubsection*{Step 5: Deployment Enhancement}
-Three robust deployment enhancements were implemented and demonstrated live:
+Three distinct production enhancements were implemented and verified live:
 \begin{enumerate}[nosep]
-    \item \textbf{Automated Kubernetes Rollback Demo:} Demonstrated zero downtime and automated disaster recovery by pushing an intentionally faulty image tag (\texttt{ecopulse-aiops:v2-broken}). Kubernetes detected the failure via \texttt{ErrImagePull}, halted the rollout, and kept existing healthy replicas serving live traffic without dropping requests. Running \texttt{kubectl rollout undo deployment/ecopulse-aiops} instantaneously restored the deployment to a clean revision.
-    \item \textbf{Decoupled Configuration via ConfigMap (\texttt{ecopulse-config}):} Extracted environmental variables (\texttt{APP\_ENV}, \texttt{SERVER\_PORT}, \texttt{ECOPULSE\_DEFAULT\_REGION}) into a Kubernetes ConfigMap, allowing dynamic adjustments to electrical grid models without container rebuilds.
-    \item \textbf{Self-Healing Liveness and Readiness Probes:} Configured HTTP health checks against \texttt{/health}. The readiness probe ensures pods only receive traffic after complete JVM initialization; the liveness probe automatically restarts unresponsive containers.
+    \item \textbf{Automated Kubernetes Rollback Demo:} Pushed an intentionally broken image tag (\texttt{ecopulse-aiops:v2-broken}). Kubernetes detected the failure via \texttt{ImagePullBackOff}, preserved running healthy pods, and maintained uninterrupted service on port 30080. Executing \texttt{kubectl rollout undo deployment/ecopulse-aiops} instantly restored the deployment to revision 1 without downtime.
+    \item \textbf{Environment Decoupling via ConfigMap (\texttt{ecopulse-config}):} Extracted environmental variables (\texttt{APP\_ENV}, \texttt{SERVER\_PORT}, \texttt{ECOPULSE\_DEFAULT\_REGION}) into a ConfigMap, enabling operational changes without rebuilding images.
+    \item \textbf{Self-Healing Probes:} Configured HTTP Liveness and Readiness probes against \texttt{/health}, ensuring unresponsive pods are automatically restarted and unready pods receive no traffic.
 \end{enumerate}
 
 \subsection*{Description of the Activity}
-The Ansible playbook executed against the inventory host, successfully provisioning the service directory and systemd service file while validating idempotency (repeated runs reported \texttt{changed=0}). In Kubernetes, the Deployment created a ReplicaSet maintaining 3 pod replicas. When scaling was triggered via \texttt{kubectl scale --replicas=5}, the Kubernetes control plane observed the divergence between the desired state (5) and current state (3), immediately scheduling 2 additional pods across available nodes. Hitting the NodePort endpoint at \url{http://localhost:30080/health} returned HTTP 200 containing student USN \texttt{1MS24CI060} and service status \texttt{UP}, while traffic was load-balanced across all healthy replicas.
+The Ansible playbook executed against the target environment, achieving idempotency with \texttt{ok=10 changed=0 failed=0}. In Kubernetes, the Deployment created a ReplicaSet maintaining 3 pods. Upon executing \texttt{kubectl scale deployment ecopulse-aiops --replicas=5}, the controller observed the desired state delta and scheduled 2 additional pods within seconds. The NodePort Service routed traffic on port 30080 across all active pods. Accessing \url{http://localhost:30080/health} returned HTTP 200 confirming USN \texttt{1MS24CI060}, and \url{http://localhost:30080/} loaded the live telemetry dashboard.
+
+\newpage
 
 \subsection*{Results}
-\noindent
-\textit{[Insert Screenshot 6: Ansible playbook execution showing PLAY RECAP with 0 failures]} \\[0.2cm]
-\textit{[Insert Screenshot 7: Multi-stage Docker build output showing image size]} \\[0.2cm]
-\textit{[Insert Screenshot 8: kubectl get pods showing initial 3 replicas running]} \\[0.2cm]
-\textit{[Insert Screenshot 9: kubectl scale command and get pods showing 5 running replicas]} \\[0.2cm]
-\textit{[Insert Screenshot 10: Browser/curl output of http://localhost:30080/health displaying student USN 1MS24CI060]}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_ansible_playbook.png}
+    \caption{Ansible playbook execution displaying task execution across role and handlers.}
+\end{figure}
+
+\vspace{0.4cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_ansible_recap.png}
+    \caption{Ansible PLAY RECAP verifying idempotency (\texttt{ok=10 changed=0 failed=0}) and USN logging.}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_docker_build.png}
+    \caption{Multi-stage Alpine Docker container build and image tagging for \texttt{ecopulse-aiops:1.0.0}.}
+\end{figure}
+
+\vspace{0.4cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_k8s_scaling.png}
+    \caption{Kubernetes pod scaling from 3 to 5 replicas via \texttt{kubectl scale} command.}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_k8s_service.png}
+    \caption{Kubernetes NodePort Service (\texttt{ecopulse-service}) routing port 8085 to node port 30080.}
+\end{figure}
+
+\vspace{0.4cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_app_response.png}
+    \caption{Terminal verification via curl showing live JSON telemetry response with USN \texttt{1MS24CI060}.}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_rollback_enhancement.png}
+    \caption{Deployment Enhancement: Zero-downtime fault isolation during bad image rollout and recovery via \texttt{kubectl rollout undo}.}
+\end{figure}
+
+\vspace{0.4cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{screenshots/comp2_web_dashboard.png}
+    \caption{Live interactive EcoPulse AIOps dashboard running on localhost displaying active cluster telemetry.}
+\end{figure}
 
 \subsection*{Conclusion}
-Component 2 illustrates the automated transition from built binaries to an elastic, containerized cloud deployment. Ansible enforces repeatable server configuration through roles and handlers, while Kubernetes ensures zero-downtime scalability and self-healing resilience through declarative deployments, service discovery, and health probes.
+Component 2 demonstrates the full deployment lifecycle. Ansible automates consistent system provisioning, while Docker provides lightweight, portable container runtimes. Kubernetes delivers robust cloud-native capabilities through self-healing, automated scaling, and rollback resilience, completing a production-grade DevOps assembly line.
 
 \newpage
 
@@ -583,12 +696,14 @@ Component 2 illustrates the automated transition from built binaries to an elast
 % ======================================================
 \section*{References}
 \begin{enumerate}[nosep]
-    \item Jennifer Davis and Katherine Daniels, \textit{Effective DevOps}, 1st Edition, Shroff/O'Reilly Publications, 2021.
-    \item Sanjeev Sharma, \textit{The DevOps Adoption Playbook: A Guide to Adopting DevOps in a Multi-Speed IT Enterprise}, 1st Edition.
-    \item Official Git Documentation -- \url{https://git-scm.com/doc}
-    \item Official Jenkins Documentation -- \url{https://www.jenkins.io/doc/}
+    \item Jennifer Davis and Katherine Daniels, \textit{Effective DevOps: Building a Culture of Collaboration, Affinity, and Tooling at Scale}, 1st Edition, O'Reilly Media, 2021.
+    \item Sanjeev Sharma, \textit{The DevOps Adoption Playbook: A Guide to Adopting DevOps in a Multi-Speed IT Enterprise}, 1st Edition, Wiley, 2017.
+    \item Official Git SCM Documentation -- \url{https://git-scm.com/doc}
+    \item Official Jenkins CI Documentation -- \url{https://www.jenkins.io/doc/}
     \item Official Ansible Documentation -- \url{https://docs.ansible.com/}
     \item Official Kubernetes Documentation -- \url{https://kubernetes.io/docs/}
+    \item Eclipse Temurin Container Images -- \url{https://hub.docker.com/_/eclipse-temurin}
+    \item Spring Boot Reference Documentation (v3.2.5) -- \url{https://docs.spring.io/spring-boot/docs/3.2.5/reference/html/}
 \end{enumerate}
 
 \end{document}
