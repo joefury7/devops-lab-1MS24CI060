@@ -8,7 +8,7 @@ public class EcoHealthResponse {
     private String department = "CSE (Artificial Intelligence and Machine Learning)";
     private String institution = "M. S. Ramaiah Institute of Technology";
     private String courseCode = "25CIAEC59";
-    private String facultyGuide = "Mr. Prashanth Reddy C";
+    private String facultyGuide = "";
     private String activeCarbonRegion = "ap-south-1";
     private double gridCarbonIntensity = 660.0; // gCO2/kWh
     private long uptimeSeconds;

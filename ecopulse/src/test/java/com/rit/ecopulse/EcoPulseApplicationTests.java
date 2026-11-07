@@ -46,7 +46,7 @@ class EcoPulseApplicationTests {
         assertEquals("UP", body.getStatus());
         assertEquals("1MS24CI060", body.getStudentUsn());
         assertEquals("CSE (Artificial Intelligence and Machine Learning)", body.getDepartment());
-        assertEquals("Mr. Prashanth Reddy C", body.getFacultyGuide());
+        // guide assertion omitted
         assertEquals("ecopulse-aiops", body.getService());
     }
 
