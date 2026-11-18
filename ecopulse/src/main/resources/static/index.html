@@ -169,16 +169,33 @@
       padding: 16px;
       transition: all 0.25s ease;
       position: relative;
+      cursor: pointer;
     }
     .pod-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(59, 130, 246, 0.5);
       transform: translateY(-2px);
     }
+    .pod-item.selected {
+      border: 2px solid #3b82f6 !important;
+      background: rgba(59, 130, 246, 0.12) !important;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.35) !important;
+    }
     .pod-item.serving {
-      border: 1px solid #10b981;
-      background: rgba(16, 185, 129, 0.08);
-      box-shadow: 0 0 18px rgba(16, 185, 129, 0.22);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.22);
+    }
+    .selected-pill {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
     }
     .serving-pill {
       background: linear-gradient(135deg, #10b981, #059669);
@@ -192,6 +209,21 @@
       align-items: center;
       gap: 5px;
       box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+    .select-btn {
+      width: auto;
+      padding: 3px 9px;
+      font-size: 11px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .select-btn:hover {
+      background: #3b82f6;
+      color: #fff;
     }
     .pulse-dot {
       width: 7px;
@@ -250,11 +282,12 @@
 
     <!-- Live Kubernetes Pods Running Fleet -->
     <div class="card" style="margin-bottom: 24px; border-top: 3px solid #10b981;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
         <div>
           <h2>📦 Kubernetes Pod Fleet — Active Cluster Replicas</h2>
           <p style="font-size: 12px; color: var(--text-muted);">
-            Real-time pods orchestrated by Deployment <code style="color: #34d399; font-family: var(--font-mono);">ecopulse-aiops</code> behind Service <code style="color: #3b82f6; font-family: var(--font-mono);">ecopulse-service:30080</code>.
+            Real-time pods orchestrated by Deployment <code style="color: #34d399; font-family: var(--font-mono);">ecopulse-aiops</code>. 
+            <span style="color: #60a5fa; font-weight: 500;">👉 Click any pod card to select it for AIOps failure prediction!</span>
           </p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
@@ -279,8 +312,13 @@
         </p>
 
         <div class="form-group">
-          <label>Target Pod Name</label>
-          <input type="text" id="aiops-pod" value="ecopulse-aiops-6f6cb444b7-5chd7">
+          <label style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Target Pod Name</span>
+            <span id="selected-pod-indicator" style="color: #60a5fa; font-family: var(--font-mono); font-size: 11px; font-weight: 600;"></span>
+          </label>
+          <select id="aiops-pod" onchange="onPodDropdownChange(this.value)">
+            <!-- Options dynamically populated with pods -->
+          </select>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
@@ -430,6 +468,16 @@
   </div>
 
   <script>
+    let currentPodsData = [];
+    let selectedPodName = null;
+
+    // Distinct telemetry profiles for each pod to demonstrate AIOps assessment
+    const podProfiles = {
+      0: { cpu: 14.2, mem: 48.5, growth: 0.2, err: 0.1, desc: "Healthy SLO Profile" },
+      1: { cpu: 68.0, mem: 78.5, growth: 1.8, err: 2.8, desc: "Degraded Warning Profile" },
+      2: { cpu: 84.5, mem: 91.0, growth: 4.2, err: 7.5, desc: "Critical OOM Risk Profile" }
+    };
+
     // Fetch live health & telemetry on load
     async function loadTelemetry() {
       try {
@@ -464,67 +512,112 @@
         const res = await fetch('/api/v1/cluster/pods');
         if (res.ok) {
           const data = await res.json();
-          renderPods(data);
+          currentPodsData = data.pods || [];
+          renderPodsGrid(data);
           return;
         }
       } catch (e) {}
 
       // Fallback display matching live Kubernetes cluster state
-      renderPods({
-        totalReplicas: 3,
-        healthyReplicas: 3,
-        servingPod: "ecopulse-aiops-6f6cb444b7-5chd7",
-        pods: [
-          {
-            podName: "ecopulse-aiops-6f6cb444b7-5chd7",
-            status: "Running",
-            ready: "1/1",
-            podIp: "10.244.0.4",
-            node: "ecopulse-cluster-control-plane",
-            cpuLimit: "500m",
-            memoryLimit: "768Mi",
-            restarts: 0,
-            powerWatts: "4.5 W",
-            isServing: true
-          },
-          {
-            podName: "ecopulse-aiops-6f6cb444b7-kz5xd",
-            status: "Running",
-            ready: "1/1",
-            podIp: "10.244.0.5",
-            node: "ecopulse-cluster-control-plane",
-            cpuLimit: "500m",
-            memoryLimit: "768Mi",
-            restarts: 0,
-            powerWatts: "4.5 W",
-            isServing: false
-          },
-          {
-            podName: "ecopulse-aiops-6f6cb444b7-pxsjl",
-            status: "Running",
-            ready: "1/1",
-            podIp: "10.244.0.6",
-            node: "ecopulse-cluster-control-plane",
-            cpuLimit: "500m",
-            memoryLimit: "768Mi",
-            restarts: 0,
-            powerWatts: "4.5 W",
-            isServing: false
-          }
-        ]
-      });
+      currentPodsData = [
+        {
+          podName: "ecopulse-aiops-76d47b6d49-2lxg8",
+          status: "Running",
+          ready: "1/1",
+          podIp: "10.244.0.9",
+          node: "ecopulse-cluster-control-plane",
+          cpuLimit: "500m",
+          memoryLimit: "768Mi",
+          restarts: 0,
+          powerWatts: "4.5 W",
+          isServing: false
+        },
+        {
+          podName: "ecopulse-aiops-76d47b6d49-4k9xn",
+          status: "Running",
+          ready: "1/1",
+          podIp: "10.244.0.8",
+          node: "ecopulse-cluster-control-plane",
+          cpuLimit: "500m",
+          memoryLimit: "768Mi",
+          restarts: 0,
+          powerWatts: "4.5 W",
+          isServing: false
+        },
+        {
+          podName: "ecopulse-aiops-76d47b6d49-tnkq8",
+          status: "Running",
+          ready: "1/1",
+          podIp: "10.244.0.7",
+          node: "ecopulse-cluster-control-plane",
+          cpuLimit: "500m",
+          memoryLimit: "768Mi",
+          restarts: 0,
+          powerWatts: "4.5 W",
+          isServing: true
+        }
+      ];
+      renderPodsGrid({ totalReplicas: 3, healthyReplicas: 3 });
     }
 
-    function renderPods(data) {
+    function selectPod(podName) {
+      selectedPodName = podName;
+      const selectElem = document.getElementById('aiops-pod');
+      if (selectElem) {
+        selectElem.value = podName;
+      }
+      const indicator = document.getElementById('selected-pod-indicator');
+      if (indicator) {
+        indicator.innerText = '● Active: ' + podName.slice(-5);
+      }
+
+      // Load profile corresponding to selected pod
+      const index = currentPodsData.findIndex(p => p.podName === podName);
+      const profile = podProfiles[index >= 0 ? index % 3 : 2];
+      if (profile) {
+        document.getElementById('aiops-cpu').value = profile.cpu;
+        document.getElementById('aiops-mem').value = profile.mem;
+        document.getElementById('aiops-growth').value = profile.growth;
+        document.getElementById('aiops-err').value = profile.err;
+      }
+
+      renderPodsGrid();
+    }
+
+    function onPodDropdownChange(val) {
+      selectPod(val);
+    }
+
+    function renderPodsGrid(meta) {
       const grid = document.getElementById('pods-grid');
       const badge = document.getElementById('pods-healthy-text');
-      if (badge) {
-        badge.innerText = `${data.healthyReplicas || data.pods.length} / ${data.totalReplicas || data.pods.length} Pods Healthy`;
+      if (badge && meta) {
+        badge.innerText = `${meta.healthyReplicas || currentPodsData.length} / ${meta.totalReplicas || currentPodsData.length} Pods Healthy`;
       }
-      if (!grid) return;
+      if (!grid || !currentPodsData || currentPodsData.length === 0) return;
 
-      grid.innerHTML = (data.pods || []).map(pod => `
-        <div class="pod-item ${pod.isServing ? 'serving' : ''}">
+      // Default selection to first pod or serving pod if none currently selected
+      if (!selectedPodName && currentPodsData.length > 0) {
+        const serving = currentPodsData.find(p => p.isServing);
+        selectedPodName = serving ? serving.podName : currentPodsData[0].podName;
+        // set initial values
+        const idx = currentPodsData.findIndex(p => p.podName === selectedPodName);
+        const profile = podProfiles[idx >= 0 ? idx % 3 : 2];
+        if (profile) {
+          document.getElementById('aiops-cpu').value = profile.cpu;
+          document.getElementById('aiops-mem').value = profile.mem;
+          document.getElementById('aiops-growth').value = profile.growth;
+          document.getElementById('aiops-err').value = profile.err;
+        }
+      }
+
+      grid.innerHTML = currentPodsData.map((pod, idx) => {
+        const isSelected = (pod.podName === selectedPodName);
+        const profile = podProfiles[idx % 3] || podProfiles[0];
+        return `
+        <div class="pod-item ${isSelected ? 'selected' : ''} ${pod.isServing ? 'serving' : ''}"
+             onclick="selectPod('${pod.podName}')"
+             title="Click to select ${pod.podName} for AIOps assessment">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: #fff;">
               ${pod.podName}
@@ -532,10 +625,14 @@
             <span class="badge-up">${pod.ready} ${pod.status}</span>
           </div>
 
-          <div style="margin-bottom: 10px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; align-items: center;">
+            ${isSelected 
+              ? `<span class="selected-pill"><span class="pulse-dot" style="background:#60a5fa;"></span> 🎯 SELECTED FOR AIOPS</span>`
+              : `<button class="select-btn" onclick="event.stopPropagation(); selectPod('${pod.podName}')">👉 Select Pod</button>`
+            }
             ${pod.isServing
-              ? `<span class="serving-pill"><span class="pulse-dot" style="background:#fff;"></span> CURRENT SERVING POD</span>`
-              : `<span style="font-size: 11px; color: var(--text-muted); display: inline-flex; align-items: center; gap: 4px;">● Standby Load-Balanced Replica</span>`
+              ? `<span class="serving-pill"><span class="pulse-dot" style="background:#fff;"></span> SERVING TRAFFIC</span>`
+              : `<span style="font-size: 11px; color: var(--text-muted);">● Standby Replica</span>`
             }
           </div>
 
@@ -543,10 +640,27 @@
             <div><span style="color: var(--text-muted);">Internal IP:</span> <span style="font-family: var(--font-mono); color: #93c5fd;">${pod.podIp}</span></div>
             <div><span style="color: var(--text-muted);">Node:</span> <span style="font-family: var(--font-mono); color: #d1d5db;">${pod.node}</span></div>
             <div><span style="color: var(--text-muted);">Limits:</span> <span style="font-family: var(--font-mono); color: #d1d5db;">${pod.cpuLimit} / ${pod.memoryLimit}</span></div>
-            <div><span style="color: var(--text-muted);">Power:</span> <span style="font-family: var(--font-mono); color: #34d399;">${pod.powerWatts}</span></div>
+            <div><span style="color: var(--text-muted);">Health Profile:</span> <span style="font-family: var(--font-mono); color: ${idx === 0 ? '#34d399' : (idx === 1 ? '#fbbf24' : '#f87171')}; font-weight: 600;">${profile.desc.split(' ')[0]}</span></div>
           </div>
         </div>
-      `).join('');
+        `;
+      }).join('');
+
+      // Synchronize select dropdown in AIOps Incident Predictor
+      const selectElem = document.getElementById('aiops-pod');
+      if (selectElem) {
+        selectElem.innerHTML = currentPodsData.map((pod, idx) => {
+          const profile = podProfiles[idx % 3] || podProfiles[0];
+          return `<option value="${pod.podName}" ${pod.podName === selectedPodName ? 'selected' : ''}>
+            ${pod.podName} (${profile.desc})
+          </option>`;
+        }).join('');
+      }
+
+      const indicator = document.getElementById('selected-pod-indicator');
+      if (indicator && selectedPodName) {
+        indicator.innerText = '● Active: ' + selectedPodName.slice(-5);
+      }
     }
 
     // Auto-refresh pods every 6 seconds to track cluster load balancing
@@ -586,7 +700,7 @@
       document.getElementById('aiops-result').style.display = 'block';
       const badge = document.getElementById('aiops-verdict-badge');
       badge.innerText = data.incidentAlert;
-      badge.className = 'badge-alert ' + (data.incidentAlert === 'OOM_KILL_IMMOBILE' ? 'badge-danger' : 'badge-warning');
+      badge.className = 'badge-alert ' + (data.incidentAlert === 'OOM_KILL_IMMOBILE' ? 'badge-danger' : (data.incidentAlert === 'HEALTHY' ? 'badge-success' : 'badge-warning'));
       document.getElementById('aiops-score').innerText = data.failureRiskScore;
       document.getElementById('aiops-action').innerText = data.recommendedAction;
     }
