@@ -388,8 +388,7 @@ The application build lifecycle is configured using Apache Maven 3.9.12, targeti
 </project>
 \end{lstlisting}
 
-\newpage
-
+\vspace{0.3cm}
 \subsubsection*{Step 3: Jenkins Declarative Pipeline (Jenkinsfile)}
 The Declarative Jenkins pipeline defines a hardened, production-grade CI workflow with automated polling, git checkout, compilation, unit test execution, and fingerprinted artifact archiving:
 
@@ -481,8 +480,7 @@ pipeline {
 }
 \end{lstlisting}
 
-\newpage
-
+\vspace{0.3cm}
 \subsubsection*{Step 4: Automated JUnit 5 Test Suite Source Code}
 The microservice incorporates 5 unit test assertions covering endpoint health, student USN verification, AI incident starvation heuristics, carbon footprint modeling, and green autoscaling:
 
@@ -545,8 +543,7 @@ class EcoPulseApplicationTests {
 }
 \end{lstlisting}
 
-\newpage
-
+\vspace{0.3cm}
 \subsubsection*{Step 5: CI Enhancement Comparison}
 To demonstrate engineering depth beyond minimum requirements, two distinct CI enhancements were implemented, benchmarked, and validated:
 
@@ -702,8 +699,7 @@ course_code=24CIAEC59
         enabled: yes
 \end{lstlisting}
 
-\newpage
-
+\vspace{0.3cm}
 \subsubsection*{Step 2: Ansible Role Tasks and Systemd Template}
 The \texttt{ecopulse\_deploy} role (\texttt{roles/ecopulse\_deploy/tasks/main.yml}) enforces idempotent host provisioning across 7 granular tasks:
 
@@ -909,8 +905,7 @@ To demonstrate cloud-native production readiness, three critical deployment enha
 \subsection*{Description of the Activity}
 The Ansible playbook executed against the target environment, achieving idempotency with \texttt{ok=10 changed=0 failed=0}. In Kubernetes, the Deployment created a ReplicaSet maintaining 3 pods. Upon executing \texttt{kubectl scale deployment ecopulse-aiops --replicas=5}, the controller observed the desired state delta and scheduled 2 additional pods within seconds. The NodePort Service routed traffic on port 30080 across all active pods. Accessing \url{http://localhost:30080/health} returned HTTP 200 confirming USN \texttt{1MS24CI060}, and \url{http://localhost:30080/} loaded the live telemetry dashboard.
 
-\newpage
-
+\vspace{0.4cm}
 \subsection*{Results}
 
 \begin{figure}[H]
