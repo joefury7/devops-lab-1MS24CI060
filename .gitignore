@@ -30,3 +30,13 @@ user@user-OptiPlex-390:~/devops-lab/1M
 *.key
 credentials*
 .gradle/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
