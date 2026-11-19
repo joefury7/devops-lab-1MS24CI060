@@ -1,0 +1,141 @@
+========================================================================
+
+ECOPULSE AIOPS - LIVE LAB DEMO COMMANDS (USN: 1MS24CI060)
+
+Repository: https://github.com/joefury7/devops-lab-1MS24CI060
+
+========================================================================
+
+
+
+PREREQUISITE:
+
+On the lab PC, sign into GitHub, go to your repository, click:
+
+<> Code -> Codespaces -> Open your EXISTING Codespace (do not create a new one).
+
+
+
+
+
+------------------------------------------------------------------------
+
+1. WAKE UP JENKINS, KUBERNETES & START ECOPULSE DASHBOARD
+
+------------------------------------------------------------------------
+
+docker start jenkins ecopulse-cluster-control-plane && nohup java -jar ecopulse/target/ecopulse-aiops-1.0.0.jar --server.port=8085 > app.log 2>&1 &
+
+
+
+[Verification]
+
+- Open the "Ports" tab in Codespaces.
+
+- Click the globe icon for port 8080 (Jenkins Dashboard -> pipeline-job).
+
+- Click "Build Now" in Jenkins so the live build runs while you do Step 2.
+
+- Click the globe icon for port 8085 (EcoPulse Live Dashboard).
+
+- Append /health to the port 8085 URL in a new tab to show live JSON telemetry.
+
+
+
+
+
+------------------------------------------------------------------------
+
+2. COMPONENT 1 PROOF: GIT HISTORY + MAVEN JUNIT 5 TESTS
+
+------------------------------------------------------------------------
+
+git --no-pager log --graph --oneline --all -n 10 && mvn test -f ecopulse/pom.xml
+
+
+
+[Verification]
+
+- Git graph shows feature branch 'ecopulse' merged into 'main' with tag v1.0.0.
+
+- Maven shows: Tests run: 5, Failures: 0, Errors: 0, Skipped: 0 (BUILD SUCCESS).
+
+- Switch to browser: Show GitHub Actions tab (green workflow) and Jenkins port 8080 (green build, archived JAR with fingerprints, Surefire XML report, and Console Output).
+
+
+
+
+
+------------------------------------------------------------------------
+
+3. COMPONENT 2 PROOF: DOCKER, ANSIBLE & INITIAL K8S STATE
+
+------------------------------------------------------------------------
+
+docker images ecopulse-aiops && ansible-playbook --syntax-check -i ansible/inventory.ini ansible/playbook.yml && kubectl get pods,svc -l app=ecopulse-aiops
+
+
+
+[Verification]
+
+- Lists ecopulse-aiops:1.0.0 Docker image.
+
+- Confirms ansible/playbook.yml passes syntax check.
+
+- Shows 3 running pods and ecopulse-service mapped to NodePort 30080.
+
+
+
+
+
+------------------------------------------------------------------------
+
+4. KUBERNETES LIVE SCALING: 3 -> 5 -> 3 PODS
+
+------------------------------------------------------------------------
+
+# Scale up to 5 replicas:
+
+kubectl scale deployment ecopulse-aiops --replicas=5 && kubectl get pods -l app=ecopulse-aiops
+
+
+
+# Scale back down to 3 replicas:
+
+kubectl scale deployment ecopulse-aiops --replicas=3 && kubectl get pods -l app=ecopulse-aiops
+
+
+
+[Verification]
+
+- First command scales deployment and lists 5 pods.
+
+- Second command terminates 2 pods, returning to 3 healthy pods.
+
+
+
+
+
+------------------------------------------------------------------------
+
+5. OPTIONAL: KUBERNETES ROLLBACK DEMO (IF ASKED BY EVALUATOR)
+
+------------------------------------------------------------------------
+
+# Trigger a broken image rollout:
+
+kubectl set image deployment/ecopulse-aiops ecopulse-aiops=ecopulse-aiops:v2-broken && kubectl get pods -l app=ecopulse-aiops
+
+
+
+# Roll back cleanly to the working revision:
+
+kubectl rollout undo deployment/ecopulse-aiops && kubectl rollout status deployment/ecopulse-aiops
+
+
+
+[Verification]
+
+- Failing pod shows ImagePullBackOff while existing 3 healthy pods stay up.
+
+- Rollback prints: deployment "ecopulse-aiops" successfully rolled out.
